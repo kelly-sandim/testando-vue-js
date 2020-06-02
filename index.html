@@ -39,6 +39,18 @@
                 <p v-show="inStock">Em Estoque</p>
                 <!--  parte do challenge #3 -->
                 <p v-if="onSale">Em Venda!</p>
+
+                <!-- v-for é outra diretiva? do Vue.js que serve pra fazer laço   -->
+                <ul>
+                    <li v-for="detail in details">{{ detail }}</li>
+                </ul>
+
+                <!-- Essa é a forma de imprimir dados mais complexos 
+                    É altamente recomendado usar :key pro Vue ter controle
+                    dos dados -->
+                <div v-for="variant in variants" :key="variant.variantId">
+                    <p>{{ variant.variantColor }}</p>
+                </div>
             </div>
         </div>
     </div>
