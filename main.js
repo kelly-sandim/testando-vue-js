@@ -18,6 +18,7 @@ var app = new Vue({
                 variantId: 2235,
                 variantColor: "azul"
             }
-        ]
+        ],
+        sizes: ["P", "M", "G"] // parte do challenge #4
     }
 })
