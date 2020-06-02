@@ -25,6 +25,18 @@
                 <p>{{ description }}</p>
                 <!--  parte do challenge #2 -->
                 <a :href="link">Clique aqui para ver mais meias!</a>
+                <!-- Vue tem as condicionais v-if, v-else-if e v-else -->
+                <!-- <p v-if="inventory > 10">Em Estoque</p>
+                <p v-else-if="inventory <= 10 && inventory > 0">Estoque Quase Acabando!</p>
+                <p v-else>Fora de Estoque</p> -->
+                
+                <!-- Há uma outra diretiva do Vue.js que é o v-show 
+                Quando é uma condicional simples, tipo True/False, talvez
+                seja melhor usar ele, pq ele mostra um elemento ou não 
+                dependendo do valor da variável
+                O elemento ainda existe, mas é aplicado um display: none 
+                nele nesses casos -->
+                <p v-show="inStock">Em Estoque</p>
             </div>
         </div>
     </div>
