@@ -6,6 +6,7 @@ var app = new Vue({
         image: './assets/vmSocks-green.jpg',
         link: 'https://www.marisa.com.br/masculino/c/meias-m', // parte do challenge #2
         //inventory: 0
-        inStock: false
+        inStock: false,
+        onSale: true // parte do challenge #3
     }
 })
