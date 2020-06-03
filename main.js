@@ -35,6 +35,10 @@ var app = new Vue({
         },
         updateProduct(variantImage) {
             this.image = variantImage
+        },
+        // parte do challenge #5
+        removeFromCart() {
+            this.cart -= 1
         }
     }
 })
