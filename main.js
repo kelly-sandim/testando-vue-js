@@ -12,13 +12,29 @@ var app = new Vue({
         variants: [
             {
                 variantId: 2234,
-                variantColor: "verde"
+                variantColor: 'verde',
+                variantImage: './assets/vmSocks-green.jpg'
             },
             {
                 variantId: 2235,
-                variantColor: "azul"
+                variantColor: 'azul',
+                variantImage: './assets/vmSocks-blue.jpg'
             }
         ],
-        sizes: ["P", "M", "G"] // parte do challenge #4
+        sizes: ["P", "M", "G"], // parte do challenge #4
+        cart: 0
+    },
+    //Assim como há uma propriedade para inserir data, tbm tem uma
+    //propriedade pra inserir métodos
+    //OBS: lalala: function() é pra fção anonima, assim vc pode tirar esse : function
+    //Mas nem todos os navegadores suportam isso ainda
+
+    methods: {
+        addToCart() {
+            this.cart += 1 //aqui põe this pra referenciar a variável cart acima
+        },
+        updateProduct(variantImage) {
+            this.image = variantImage
+        }
     }
 })
