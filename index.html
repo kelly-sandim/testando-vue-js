@@ -36,7 +36,12 @@
                 dependendo do valor da variável
                 O elemento ainda existe, mas é aplicado um display: none 
                 nele nesses casos -->
-                <p v-show="inStock">Em Estoque</p>
+
+                <!-- :style em diante => parte do challenge #6 -->
+                <!-- <p v-show="inStock"-->
+                <p v-if="inStock">Em Estoque</p>
+                <p v-else :class="{ outOfStock: !inStock }">Fora de Estoque</p>                 
+                    
                 <!--  parte do challenge #3 -->
                 <p v-if="onSale">Em Venda!</p>
 

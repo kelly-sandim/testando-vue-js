@@ -22,7 +22,8 @@ var app = new Vue({
             }
         ],
         sizes: ["P", "M", "G"], // parte do challenge #4
-        cart: 0
+        cart: 0      
+        
     },
     //Assim como há uma propriedade para inserir data, tbm tem uma
     //propriedade pra inserir métodos
