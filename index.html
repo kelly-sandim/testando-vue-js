@@ -48,9 +48,41 @@
                 <!-- Essa é a forma de imprimir dados mais complexos 
                     É altamente recomendado usar :key pro Vue ter controle
                     dos dados -->
-                <div v-for="variant in variants" :key="variant.variantId">
-                    <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p>
+                <div v-for="variant in variants" 
+                    :key="variant.variantId"
+                    class="color-box"
+                    :style="{ backgroundColor: variant.variantColor }" 
+                    @mouseover="updateProduct(variant.variantImage)" >                    
                 </div>
+                <!-- você usa : na frente do style pra dizer que é um style binding (?) 
+                    Se usa CamelCase pq é objeto, mas pode usar kebab-case se vc por 
+                    entre aspas simples. EX:
+                    'font-size': fontSize
+                    Também fica mais limpo e organizado se vc por o style dentro de um 
+                    objeto. EX:
+                    (no hmtl)=> <p :style="styleObject">...</p>
+                    (no js)=> data: { styleObject: {
+                                        color: 'red',
+                                        fontSize: '13px'
+                                    }
+                                }
+
+                    Se tiver mais de um obj de Style, vc pode chamar eles 
+                    dentro de um array. EX:
+                    (no hmtl)=> <p :style="[styleObject, styleObject2]">...</p>
+                    (no js)=> data: { styleObject: {
+                                        color: 'red',
+                                        fontSize: '13px'
+                                    }
+                                    styleObject2: {
+                                        margin: '5px',
+                                        padding: '20px'
+                                    }
+                                }
+                    Também dá pra meter condicional aqui \o/
+                    EX: <div :class="[isActive ? activeClass : '']">...</div>
+                     -->
+
 
                 <!--  parte do challenge #4 -->
                 <ul>
@@ -62,7 +94,11 @@
                 <!-- Também dá pra fazer @keyup.enter, por exemplo. Esse "." é o modificador 
                     E, nesse exemplo, ele faz com que, toda vez que a tecla enter for pressionada
                     o método seja chamado -->
-                <button v-on:click="addToCart">Adicionar ao Carrinho</button>
+
+                <!-- disabled é outro bind do styles -->
+                <button v-on:click="addToCart" 
+                        :disabled="!inStock"
+                        :class="{ disabledButton: !inStock }">Adicionar ao Carrinho</button>
 
                 <!--  parte do challenge #5 -->
                 <button @click="removeFromCart">Remover do Carrinho</button>
