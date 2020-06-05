@@ -20,7 +20,7 @@
             </div>
 
             <div class="product-info">
-                <h1>{{ product }}</h1>
+                <h1>{{ title }}</h1>
                 <!--  parte do challenge #1 -->
                 <p>{{ description }}</p>
                 <!--  parte do challenge #2 -->
@@ -53,11 +53,11 @@
                 <!-- Essa é a forma de imprimir dados mais complexos 
                     É altamente recomendado usar :key pro Vue ter controle
                     dos dados -->
-                <div v-for="variant in variants" 
+                <div v-for="(variant, index) in variants" 
                     :key="variant.variantId"
                     class="color-box"
                     :style="{ backgroundColor: variant.variantColor }" 
-                    @mouseover="updateProduct(variant.variantImage)" >                    
+                    @mouseover="updateProduct(index)" >                    
                 </div>
                 <!-- você usa : na frente do style pra dizer que é um style binding (?) 
                     Se usa CamelCase pq é objeto, mas pode usar kebab-case se vc por 
