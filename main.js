@@ -154,7 +154,9 @@ Vue.component('product', {
         },
         // parte do challenge #5
         removeFromCart() {
-            this.cart -= 1
+            //this.cart -= 1
+            //parte do challenge #9
+            this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantId)
         }
     },
 
@@ -213,6 +215,12 @@ var app = new Vue({
     methods: {
         updateCart(id) {
             this.cart.push(id)
+        },
+        decreaseCart(id) {
+            const index = this.cart.indexOf(id);
+            if (index > -1) {
+                this.cart.splice(index, id);
+            }
         }
     }    
 })
