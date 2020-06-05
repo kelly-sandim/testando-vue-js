@@ -103,9 +103,7 @@ Vue.component('product', {
             <!--  parte do challenge #5 -->
             <button @click="removeFromCart">Remover do Carrinho</button>
 
-            <div class="cart">
-                <p>Carrinho({{ cart }})</p>
-            </div>
+            
         </div>
     </div>
     `,
@@ -123,17 +121,18 @@ Vue.component('product', {
                 {
                     variantId: 2234,
                     variantColor: 'green',
-                    variantImage: './assets/vmSocks-green.jpg'
+                    variantImage: './assets/vmSocks-green.jpg',
+                    variantQuantity: 20
                 },
                 {
                     variantId: 2235,
                     variantColor: 'blue',
-                    variantImage: './assets/vmSocks-blue.jpg'
+                    variantImage: './assets/vmSocks-blue.jpg',
+                    variantQuantity: 0
                 }
             ],
             sizes: ["P", "M", "G"], // parte do challenge #4
-            cart: 0      
-            
+                 
         }
     },
      
@@ -144,7 +143,10 @@ Vue.component('product', {
 
     methods: {
         addToCart() {
-            this.cart += 1 //aqui põe this pra referenciar a variável cart acima
+            //this.cart += 1 //aqui põe this pra referenciar a variável cart acima
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId) //isso aqui faz com que um componente se "comunique" com um dado ou var
+                                        //fora do componente. Ele meio que manda sinal caso ocorra uma mudança
+                                        //ou ação (tipo clicar o botão) por exemplo
         },
         updateProduct(index) {
             this.selectedVariant = index
@@ -205,9 +207,13 @@ Vue.component('product-details', {
 var app = new Vue({
     el: '#app',
     data: {
-        premium: false,
-        //parte do challenge #8
-        newDetails: "Feito no Paraguai com seda paraguaia"
+        premium: false,        
+        cart: [] 
+    },
+    methods: {
+        updateCart(id) {
+            this.cart.push(id)
+        }
     }    
 })
 
