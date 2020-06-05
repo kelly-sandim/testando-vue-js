@@ -42,11 +42,9 @@ Vue.component('product', {
             <p v-if="onSale">Em Venda!</p>
             <p>{{ sale }}</p>
 
-            <!-- v-for é outra diretiva? do Vue.js que serve pra fazer laço   -->
-            <ul>
-                <li v-for="detail in details">{{ detail }}</li>
-            </ul>
-
+            <!-- parte do challenge #8 -->
+            <product-details :details="details"></product-details>
+            
             <!-- Essa é a forma de imprimir dados mais complexos 
                 É altamente recomendado usar :key pro Vue ter controle
                 dos dados -->
@@ -187,12 +185,29 @@ Vue.component('product', {
 
 })
 
+//parte do challenge #8
+Vue.component('product-details', {
+    props: {
+      details: {
+        type: Array,
+        required: true
+      }
+    },
+    template: `
+        <!-- v-for é outra diretiva(?) do Vue.js que serve pra fazer laço   -->
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+    `
+  })
 
 
 var app = new Vue({
     el: '#app',
     data: {
-        premium: false
+        premium: false,
+        //parte do challenge #8
+        newDetails: "Feito no Paraguai com seda paraguaia"
     }    
 })
 
