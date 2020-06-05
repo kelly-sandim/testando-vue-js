@@ -56,6 +56,12 @@ var app = new Vue({
         },
         inStock() {
             return this.variants[this.selectedVariant].variantQuantity
+        },
+        sale() {
+            if (this.onSale) {
+              return this.product + ' da ' + this.brand + ' estão em venda!'
+            } 
+              return  this.product + ' da ' + this.brand+ ' não estão em venda'
         }
     }
 })
