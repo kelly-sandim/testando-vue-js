@@ -1,3 +1,5 @@
+Vue.config.devtools = true
+
 Vue.component('product', {
     props: {
         premium: {
@@ -102,9 +104,11 @@ Vue.component('product', {
 
             <!--  parte do challenge #5 -->
             <button @click="removeFromCart">Remover do Carrinho</button>
-
             
         </div>
+
+        <product-review></product-review>
+
     </div>
     `,
     data() {
@@ -203,7 +207,47 @@ Vue.component('product-details', {
             <li v-for="detail in details">{{ detail }}</li>
         </ul>
     `
-  })
+})
+
+Vue.component('product-review', {
+    template: `
+        <form class="review-form" @submit="onSubmit">        
+            <p>
+                <label for="name">Nome:</label>
+                <input id="name" v-model="name">
+            </p>
+
+            <p>
+                <label for="review">Review:</label>
+                <textarea id="review" v-model="review"></textarea>
+            </p>
+
+            <p>
+                <label for="rating">Nota:</label>
+                <!-- .number é um tipo de cast que pega valor como
+                        número -->
+                <select id="rating" v-model.number="rating">
+                    <option>5</option>
+                    <option>4</option>
+                    <option>3</option>
+                    <option>2</option>
+                    <option>1</option>
+                </select>
+            </p>
+
+            <p>
+                <input type="submit" value="Enviar">
+            </p>
+        </form>    
+    `,
+    data() {
+        return {
+            name: null,
+            review: null,
+            rating: null
+        }
+    }
+})
 
 
 var app = new Vue({
@@ -277,4 +321,8 @@ var app = new Vue({
  *          }
  *      }
  * })
- */7
+ */
+
+ /**
+  * Tem uma funcionalidade do Vue chamada v-model, que é um two-way de binding de dados
+  */
