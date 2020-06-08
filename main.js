@@ -115,6 +115,8 @@ Vue.component('product', {
                     <p>{{ review.name }}</p>
                     <p>Nota: {{ review.rating }}</p>
                     <p>{{ review.review }}</p>
+                    <!-- Parte do challenge #10 -->
+                    <p>Recomendaria? {{ review.recommend }}</p>
                 </li>
             </ul>
         </div>
@@ -259,6 +261,16 @@ Vue.component('product-review', {
                 </select>
             </p>
 
+            <!-- Parte do challenge #10 -->
+            <p>
+                <p>Você recomendaria este produto?</p>
+
+                <label for="yes">Sim</label>
+                <input v-model="recommend" type="radio" id="yes" value="Sim">
+                <label for="no">Não</label>                
+                <input v-model="recommend" type="radio" id="no" value="Não">
+            </p>
+
             <p>
                 <input type="submit" value="Enviar">
             </p>
@@ -269,27 +281,31 @@ Vue.component('product-review', {
             name: null,
             review: null,
             rating: null,
+            recommend: null,
             errors: []
         }
     },
     methods: {
         onSubmit() {
-            if(this.name && this.review && this.rating) {
+            if(this.name && this.review && this.rating && this.recommend) {
                 let productReview = {
                     name: this.name,
                     review: this.review,
-                    rating: this.rating
+                    rating: this.rating,
+                    recommend: this.recommend //parte do challenge #10
                 }
                 this.$emit('review-submitted', productReview)
                 this.name = null
                 this.review = null
                 this.rating = null
+                this.recommend = null //parte do challenge #10
             }
 
             else {
                 if(!this.name) this.errors.push("É obrigatório preeencher o nome!")
                 if(!this.review) this.errors.push("É obrigatório preeencher o review!")
                 if(!this.rating) this.errors.push("É obrigatório dar uma nota!")
+                if(!this.recommend) this.errors.push("É obrigatório dizer se recomenda ou não!") //parte do challenge #10
             }
 
         }
