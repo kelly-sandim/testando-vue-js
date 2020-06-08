@@ -41,16 +41,14 @@ Vue.component('product', {
             <!-- :style em diante => parte do challenge #6 -->
             <!-- <p v-show="inStock"-->
             <p v-if="inStock">Em Estoque</p>
-            <p v-else :class="{ outOfStock: !inStock }">Fora de Estoque</p>                 
-            <p>Frete: {{ shipping }} </p>
+            <p v-else :class="{ outOfStock: !inStock }">Fora de Estoque</p>                
+            
                 
             <!--  parte do challenge #3 -->
             <p v-if="onSale">Em Venda!</p>
             <p>{{ sale }}</p>
 
-            <!-- parte do challenge #8 -->
-            <product-details :details="details"></product-details>
-            
+                        
             <!-- Essa é a forma de imprimir dados mais complexos 
                 É altamente recomendado usar :key pro Vue ter controle
                 dos dados -->
@@ -111,7 +109,7 @@ Vue.component('product', {
             
         </div>
         
-        <product-tabs :reviews="reviews"></product-tabs>
+        <product-tabs :reviews="reviews" :details="details" :shipping="shipping"></product-tabs>
         
 
     </div>
@@ -310,6 +308,13 @@ Vue.component('product-tabs', {
         reviews: {
             type: Array,
             required: true
+        },
+        details: {
+            type: Array,
+            required: true
+        },
+        shipping: {
+            required: true
         }
     },
     template: `
@@ -321,6 +326,20 @@ Vue.component('product-tabs', {
                   @click="selectedTab = tab">
                   {{ tab }}
             </span>
+
+            <!-- parte do challenge #8 -->
+            <product-details v-show="selectedTab === 'Detalhes'"></product-details>
+
+            <div v-show="selectedTab === 'Frete'">
+                <p>Frete: {{ shipping }} </p>   
+            </div>
+
+            <div v-show="selectedTab === 'Detalhes'">
+                <!-- v-for é outra diretiva(?) do Vue.js que serve pra fazer laço   -->
+                <ul>
+                    <li v-for="detail in details">{{ detail }}</li>
+                </ul>
+            </div>
 
             <div v-show="selectedTab === 'Reviews'">
                 <h2>Reviews</h2>
@@ -342,7 +361,7 @@ Vue.component('product-tabs', {
     `,
     data() {
         return {
-            tabs: ['Reviews', 'Escreva um Review'],
+            tabs: ['Detalhes', 'Frete', 'Reviews', 'Escreva um Review'],
             selectedTab: 'Reviews'
         }
     }
