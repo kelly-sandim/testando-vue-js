@@ -1,5 +1,9 @@
 Vue.config.devtools = true
 
+var eventBus = new Vue() //meio que uma variável global pra ajudar em algumas coisas, tipo
+                        //um elemento neto não conseguir o avô, por exemplo
+                        //mas  a partir do momento q vc vai evoluindo, melhor usar o Vuex
+
 Vue.component('product', {
     props: {
         premium: {
@@ -106,22 +110,9 @@ Vue.component('product', {
             <button @click="removeFromCart">Remover do Carrinho</button>
             
         </div>
-
-        <div>
-            <h2>Reviews</h2>
-            <p v-if="!reviews.length">Este produto ainda não possui reviews.</p>
-            <ul>
-                <li v-for="review in reviews">
-                    <p>{{ review.name }}</p>
-                    <p>Nota: {{ review.rating }}</p>
-                    <p>{{ review.review }}</p>
-                    <!-- Parte do challenge #10 -->
-                    <p>Recomendaria? {{ review.recommend }}</p>
-                </li>
-            </ul>
-        </div>
-
-        <product-review @review-submitted="addReview"></product-review>
+        
+        <product-tabs :reviews="reviews"></product-tabs>
+        
 
     </div>
     `,
@@ -175,10 +166,7 @@ Vue.component('product', {
             //this.cart -= 1
             //parte do challenge #9
             this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantId)
-        },
-        addReview(productReview) {
-            this.reviews.push(productReview)
-        }
+        }        
     },
 
     //nova propriedade
@@ -206,6 +194,11 @@ Vue.component('product', {
             }
             return 2.99
         }
+    },
+    mounted() {
+        eventBus.$on('review-submitted', productReview => {
+            this.reviews.push(productReview)
+        })
     }
 
 })
@@ -294,7 +287,7 @@ Vue.component('product-review', {
                     rating: this.rating,
                     recommend: this.recommend //parte do challenge #10
                 }
-                this.$emit('review-submitted', productReview)
+                eventBus.$emit('review-submitted', productReview)
                 this.name = null
                 this.review = null
                 this.rating = null
@@ -308,6 +301,49 @@ Vue.component('product-review', {
                 if(!this.recommend) this.errors.push("É obrigatório dizer se recomenda ou não!") //parte do challenge #10
             }
 
+        }
+    }
+})
+
+Vue.component('product-tabs', {
+    props: {
+        reviews: {
+            type: Array,
+            required: true
+        }
+    },
+    template: `
+        <div>
+            <span class="tab"
+                  :class="{ activeTab: selectedTab === tab }"
+                  v-for="(tab, index) in tabs" 
+                  :key="index"
+                  @click="selectedTab = tab">
+                  {{ tab }}
+            </span>
+
+            <div v-show="selectedTab === 'Reviews'">
+                <h2>Reviews</h2>
+                <p v-if="!reviews.length">Este produto ainda não possui reviews.</p>
+                <ul>
+                    <li v-for="review in reviews">
+                        <p>{{ review.name }}</p>
+                        <p>Nota: {{ review.rating }}</p>
+                        <p>{{ review.review }}</p>
+                        <!-- Parte do challenge #10 -->
+                        <p>Recomendaria? {{ review.recommend }}</p>
+                    </li>
+                </ul>
+            </div>
+
+            <product-review v-show="selectedTab === 'Escreva um Review'"></product-review>
+
+        </div>
+    `,
+    data() {
+        return {
+            tabs: ['Reviews', 'Escreva um Review'],
+            selectedTab: 'Reviews'
         }
     }
 })
