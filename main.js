@@ -107,7 +107,19 @@ Vue.component('product', {
             
         </div>
 
-        <product-review></product-review>
+        <div>
+            <h2>Reviews</h2>
+            <p v-if="!reviews.length">Este produto ainda não possui reviews.</p>
+            <ul>
+                <li v-for="review in reviews">
+                    <p>{{ review.name }}</p>
+                    <p>Nota: {{ review.rating }}</p>
+                    <p>{{ review.review }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <product-review @review-submitted="addReview"></product-review>
 
     </div>
     `,
@@ -136,7 +148,7 @@ Vue.component('product', {
                 }
             ],
             sizes: ["P", "M", "G"], // parte do challenge #4
-                 
+            reviews: []                 
         }
     },
      
@@ -161,6 +173,9 @@ Vue.component('product', {
             //this.cart -= 1
             //parte do challenge #9
             this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantId)
+        },
+        addReview(productReview) {
+            this.reviews.push(productReview)
         }
     },
 
@@ -211,7 +226,16 @@ Vue.component('product-details', {
 
 Vue.component('product-review', {
     template: `
-        <form class="review-form" @submit="onSubmit">        
+        <!-- o .prevent faz com que a página não dê refresh quando clicamos no botão "Enviar"-->
+        <form class="review-form" @submit.prevent="onSubmit">  
+
+            <p v-if="errors.length">
+                <b>Por favor corrija o(s) seguinte(s) erro(s):</b>
+                <ul>
+                    <li v-for="error in errors">{{ error }}</li>
+                </ul>
+            </p>        
+
             <p>
                 <label for="name">Nome:</label>
                 <input id="name" v-model="name">
@@ -244,7 +268,30 @@ Vue.component('product-review', {
         return {
             name: null,
             review: null,
-            rating: null
+            rating: null,
+            errors: []
+        }
+    },
+    methods: {
+        onSubmit() {
+            if(this.name && this.review && this.rating) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating
+                }
+                this.$emit('review-submitted', productReview)
+                this.name = null
+                this.review = null
+                this.rating = null
+            }
+
+            else {
+                if(!this.name) this.errors.push("É obrigatório preeencher o nome!")
+                if(!this.review) this.errors.push("É obrigatório preeencher o review!")
+                if(!this.rating) this.errors.push("É obrigatório dar uma nota!")
+            }
+
         }
     }
 })
